@@ -24,13 +24,23 @@ class Model: ObservableObject {
         tasks = records.compactMap {
             TaskItem(record: $0)
         }
-        
     }
     
     func addTask(task: TaskItem) async throws {
         let record = try await db.save(task.record)
         guard let task = TaskItem(record: record) else { return }
         tasks.append(task)
+    }
+    
+    func filterTasks(by filterOption: FilterOptions) -> [TaskItem] {
+        switch filterOption {
+            case .all:
+                return tasks
+            case .completed:
+                return tasks.filter { $0.isCompleted }
+            case .incomplete:
+                return tasks.filter { !$0.isCompleted }
+        }
     }
     
 }

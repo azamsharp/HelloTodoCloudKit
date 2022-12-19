@@ -7,10 +7,32 @@
 
 import SwiftUI
 
+enum FilterOptions: String, CaseIterable, Identifiable {
+    case all
+    case completed
+    case incomplete
+}
+
+extension FilterOptions {
+    
+    var displayName: String {
+        rawValue.capitalized
+    }
+    
+    var id: String {
+        rawValue
+    }
+}
+
 struct TodoListScreen: View {
     
     @EnvironmentObject private var model: Model
     @State private var taskName: String = ""
+    @State private var filterOption: FilterOptions = .all
+    
+    var filteredTasks: [TaskItem] {
+        model.filterTasks(by: filterOption)
+    }
     
     var body: some View {
         VStack {
@@ -27,7 +49,14 @@ struct TodoListScreen: View {
                    
                 }
             
-            List(model.tasks, id: \.recordId) { task in
+            // segmented control
+            Picker("Select", selection: $filterOption) {
+                ForEach(FilterOptions.allCases) { option in
+                    Text(option.displayName).tag(option)
+                }
+            }.pickerStyle(.segmented)
+            
+            List(filteredTasks, id: \.recordId) { task in
                 Text(task.name)
             }
             
