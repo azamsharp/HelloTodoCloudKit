@@ -46,7 +46,6 @@ struct TodoListScreen: View {
                             try await model.addTask(task: task)
                             taskName = ""
                         }
-                   
                 }
             
             // segmented control
@@ -56,9 +55,7 @@ struct TodoListScreen: View {
                 }
             }.pickerStyle(.segmented)
             
-            List(filteredTasks, id: \.recordId) { task in
-                Text(task.name)
-            }
+            TaskListView(tasks: filteredTasks)
             
             Spacer()
             

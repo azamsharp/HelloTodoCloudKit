@@ -8,6 +8,10 @@
 import Foundation
 import CloudKit
 
+enum SampleError: Error {
+    case operationFailed
+}
+
 @MainActor
 class Model: ObservableObject {
     
@@ -30,6 +34,31 @@ class Model: ObservableObject {
         let record = try await db.save(task.record)
         guard let task = TaskItem(record: record) else { return }
         tasks.append(task)
+    }
+    
+    func updateTask(editedTask: TaskItem) async throws {
+        
+        // get the index of the task item
+        guard let index = tasks.firstIndex(where: { $0.recordId == editedTask.recordId }) else {
+            return
+        }
+        
+        tasks[index].isCompleted = editedTask.isCompleted
+        
+        do {
+        
+            let record = try await db.record(for: editedTask.recordId!)
+            record["isCompleted"] = editedTask.isCompleted
+            
+            // save it
+            try await db.save(record)
+            throw SampleError.operationFailed
+        } catch {
+            
+            // rollback the update
+            tasks[index].isCompleted = !editedTask.isCompleted
+        }
+        
     }
     
     func filterTasks(by filterOption: FilterOptions) -> [TaskItem] {
