@@ -8,8 +8,8 @@
 import Foundation
 import CloudKit
 
-enum SampleError: Error {
-    case operationFailed
+enum TaskError: Error {
+    case operationFailed(Error)
 }
 
 @MainActor
@@ -36,6 +36,26 @@ class Model: ObservableObject {
         tasks.append(task)
     }
     
+    func deleteTask(taskToBeDeleted: TaskItem) async throws {
+        
+        // get the index of the task item
+        guard let index = tasks.firstIndex(where: { $0.recordId == taskToBeDeleted.recordId }) else {
+            return
+        }
+        
+        // delete the task from the tasks array
+        tasks.remove(at: index)
+        
+        do {
+            let _ = try await db.deleteRecord(withID: taskToBeDeleted.recordId!)
+        } catch {
+            // put back the task into the tasks array
+            tasks.insert(taskToBeDeleted, at: index)
+            // throw the exception
+            throw TaskError.operationFailed(error)
+        }
+    }
+    
     func updateTask(editedTask: TaskItem) async throws {
         
         // get the index of the task item
@@ -52,7 +72,6 @@ class Model: ObservableObject {
             
             // save it
             try await db.save(record)
-            throw SampleError.operationFailed
         } catch {
             
             // rollback the update

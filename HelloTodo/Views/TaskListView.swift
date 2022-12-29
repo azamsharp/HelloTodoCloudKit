@@ -24,8 +24,24 @@ struct TaskListView: View {
     }
     
     var body: some View {
-        List(tasks, id: \.recordId) { task in
-            TaskItemView(taskItem: task, onUpdate: updateTask)
+        List {
+            ForEach(tasks, id: \.recordId) { task in
+                TaskItemView(taskItem: task, onUpdate: updateTask)
+            }.onDelete { indexSet in
+                
+                guard let index = indexSet.map({ $0 }).last else {
+                    return
+                }
+                
+                let taskItem = model.tasks[index]
+                Task {
+                    do {
+                        try await model.deleteTask(taskToBeDeleted: taskItem)
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
         }
     }
 }
