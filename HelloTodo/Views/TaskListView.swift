@@ -10,6 +10,7 @@ import SwiftUI
 struct TaskListView: View {
     
     @EnvironmentObject private var model: Model
+    @State private var errorWrapper: ErrorWrapper?
     let tasks: [TaskItem]
     
     private func updateTask(task: TaskItem) {
@@ -17,8 +18,7 @@ struct TaskListView: View {
             do {
                 try await model.updateTask(editedTask: task)
             } catch {
-                // should display error on the screen
-                print(error)
+                errorWrapper = ErrorWrapper(error: error, guidance: "Failed to update task. Try again later.")
             }
         }
     }
@@ -38,10 +38,12 @@ struct TaskListView: View {
                     do {
                         try await model.deleteTask(taskToBeDeleted: taskItem)
                     } catch {
-                        print(error)
+                        errorWrapper = ErrorWrapper(error: error, guidance: "Failed to delete task. Try again later.")
                     }
                 }
             }
+        }.sheet(item: $errorWrapper) { errorWrapper in
+            ErrorView(errorWrapper: errorWrapper)
         }
     }
 }
