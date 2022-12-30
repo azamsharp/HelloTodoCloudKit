@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D73803D295F667D009CD9F2 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D73803C295F667D009CD9F2 /* Array+Extensions.swift */; };
 		8D842BA1294B89410043F109 /* HelloTodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D842BA0294B89410043F109 /* HelloTodoApp.swift */; };
 		8D842BA5294B89420043F109 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D842BA4294B89420043F109 /* Assets.xcassets */; };
 		8D842BA8294B89420043F109 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D842BA7294B89420043F109 /* Preview Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D73803C295F667D009CD9F2 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		8D842B9D294B89410043F109 /* HelloTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D842BA0294B89410043F109 /* HelloTodoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloTodoApp.swift; sourceTree = "<group>"; };
 		8D842BA4294B89420043F109 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -45,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D73803B295F6668009CD9F2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8D73803C295F667D009CD9F2 /* Array+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		8D842B94294B89410043F109 = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +74,7 @@
 		8D842B9F294B89410043F109 /* HelloTodo */ = {
 			isa = PBXGroup;
 			children = (
+				8D73803B295F6668009CD9F2 /* Extensions */,
 				8DAFA9922950D24000361425 /* Views */,
 				8D842BB2294B8BA10043F109 /* Models */,
 				8D842BAF294B8B080043F109 /* Screens */,
@@ -182,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DAFA9962950D2F700361425 /* TaskItemView.swift in Sources */,
+				8D73803D295F667D009CD9F2 /* Array+Extensions.swift in Sources */,
 				8D9BF957295DE6BA0047FDFB /* ErrorWrapper.swift in Sources */,
 				8D842BB1294B8B1A0043F109 /* TodoListScreen.swift in Sources */,
 				8D842BB4294B8BB00043F109 /* TaskItem.swift in Sources */,

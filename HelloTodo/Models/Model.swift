@@ -74,6 +74,13 @@ class Model: ObservableObject {
             try await db.save(record)
         } catch {
             
+            
+            //tasks[editedTask.recordId!].isCompleted = !editedTask.isCompleted
+            
+            guard let index = tasks.firstIndex(where: { $0.recordId == editedTask.recordId }) else {
+                return
+            }
+            
             // rollback the update
             tasks[index].isCompleted = !editedTask.isCompleted
         }
