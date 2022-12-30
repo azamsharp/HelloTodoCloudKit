@@ -16,7 +16,11 @@ enum TaskError: Error {
 class Model: ObservableObject {
     
     private var db = CKContainer.default().privateCloudDatabase
-    @Published var tasks: [TaskItem] = []
+    @Published private var tasksDictionary: [CKRecord.ID: TaskItem] = [:]
+    
+    var tasks: [TaskItem] {
+        tasksDictionary.values.compactMap { $0 }
+    }
     
     func populateTasks() async throws {
         
@@ -25,32 +29,27 @@ class Model: ObservableObject {
         let result = try await db.records(matching: query)
         let records = result.matchResults.compactMap { try? $0.1.get() }
         
-        tasks = records.compactMap {
-            TaskItem(record: $0)
+        records.forEach { record in
+            tasksDictionary[record.recordID] = TaskItem(record: record)
         }
     }
     
     func addTask(task: TaskItem) async throws {
         let record = try await db.save(task.record)
         guard let task = TaskItem(record: record) else { return }
-        tasks.append(task)
+        
+        tasksDictionary[task.recordId!] = task
     }
     
     func deleteTask(taskToBeDeleted: TaskItem) async throws {
         
-        // get the index of the task item
-        guard let index = tasks.firstIndex(where: { $0.recordId == taskToBeDeleted.recordId }) else {
-            return
-        }
-        
-        // delete the task from the tasks array
-        tasks.remove(at: index)
+        tasksDictionary.removeValue(forKey: taskToBeDeleted.recordId!)
         
         do {
             let _ = try await db.deleteRecord(withID: taskToBeDeleted.recordId!)
         } catch {
             // put back the task into the tasks array
-            tasks.insert(taskToBeDeleted, at: index)
+            tasksDictionary[taskToBeDeleted.recordId!] = taskToBeDeleted
             // throw the exception
             throw TaskError.operationFailed(error)
         }
@@ -58,12 +57,7 @@ class Model: ObservableObject {
     
     func updateTask(editedTask: TaskItem) async throws {
         
-        // get the index of the task item
-        guard let index = tasks.firstIndex(where: { $0.recordId == editedTask.recordId }) else {
-            return
-        }
-        
-        tasks[index].isCompleted = editedTask.isCompleted
+        tasksDictionary[editedTask.recordId!]?.isCompleted = editedTask.isCompleted
         
         do {
         
@@ -74,15 +68,8 @@ class Model: ObservableObject {
             try await db.save(record)
         } catch {
             
-            
-            //tasks[editedTask.recordId!].isCompleted = !editedTask.isCompleted
-            
-            guard let index = tasks.firstIndex(where: { $0.recordId == editedTask.recordId }) else {
-                return
-            }
-            
             // rollback the update
-            tasks[index].isCompleted = !editedTask.isCompleted
+            tasksDictionary[editedTask.recordId!] = editedTask
         }
         
     }
