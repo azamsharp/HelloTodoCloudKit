@@ -43,7 +43,7 @@ struct TaskListView: View {
                 }
             }
         }.sheet(item: $errorWrapper) { errorWrapper in
-            ErrorView(errorWrapper: errorWrapper)
+            ErrorView(errorWrapper: errorWrapper) 
         }
     }
 }

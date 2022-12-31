@@ -29,8 +29,10 @@ struct TodoListScreen: View {
     @EnvironmentObject private var model: Model
     @State private var taskName: String = ""
     @State private var filterOption: FilterOptions = .all
+    @State private var errorWrapper: ErrorWrapper?
     
     var filteredTasks: [TaskItem] {
+        
         model.filterTasks(by: filterOption)
     }
     
@@ -56,17 +58,32 @@ struct TodoListScreen: View {
             }.pickerStyle(.segmented)
             
             TaskListView(tasks: filteredTasks)
-            
             Spacer()
-            
         }
         .task {
             do {
-                try await model.populateTasks()
+                if try await validateUserLoginToiCloud() {
+                    try await model.populateTasks()
+                } else {
+                    throw UserAccountError.notSignedIn
+                }
             } catch {
-                print(error)
+                errorWrapper = ErrorWrapper(error: error, guidance: "Please make sure to login to your iCloud account through settings.")
             }
         }
+        .sheet(item: $errorWrapper, content: { errorWrapper in
+            ErrorView(errorWrapper: errorWrapper) {
+                Button("Login to iCloud") {
+                    Task {
+                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+                        if UIApplication.shared.canOpenURL(settingsUrl) {
+                            let _ = await UIApplication.shared.open(settingsUrl)
+                        }
+                    }
+                }
+            }
+            
+        })
         .padding()
     }
 }
