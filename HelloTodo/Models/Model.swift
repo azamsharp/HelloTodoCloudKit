@@ -12,6 +12,10 @@ enum TaskError: Error {
     case operationFailed(Error)
 }
 
+enum UserAccountError: Error {
+    case notSignedIn
+}
+
 @MainActor
 class Model: ObservableObject {
     
@@ -20,6 +24,10 @@ class Model: ObservableObject {
     
     var tasks: [TaskItem] {
         tasksDictionary.values.compactMap { $0 }
+    }
+    
+    func checkUserLoginToiCloud() async throws -> Bool {
+        try await CKContainer.default().isUserLoggedIn
     }
     
     func populateTasks() async throws {

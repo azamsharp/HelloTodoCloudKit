@@ -36,7 +36,7 @@ struct HelloTodoApp: App {
             .onChange(of: scenePhase, perform: { newPhase in
                 if newPhase == .active {
                     Task {
-                        isUserLoggedIn = (try? await validateUserLoginToiCloud()) ?? false
+                        isUserLoggedIn = (try? await model.checkUserLoginToiCloud()) ?? false
                     }
                 }
             })

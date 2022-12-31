@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D7380452960AB2C009CD9F2 /* CloudKit+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7380442960AB2C009CD9F2 /* CloudKit+Utility.swift */; };
+		8D7380482960FA2A009CD9F2 /* CKContainer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D7380472960FA2A009CD9F2 /* CKContainer+Extensions.swift */; };
 		8D842BA1294B89410043F109 /* HelloTodoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D842BA0294B89410043F109 /* HelloTodoApp.swift */; };
 		8D842BA5294B89420043F109 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D842BA4294B89420043F109 /* Assets.xcassets */; };
 		8D842BA8294B89420043F109 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D842BA7294B89420043F109 /* Preview Assets.xcassets */; };
@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8D7380442960AB2C009CD9F2 /* CloudKit+Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CloudKit+Utility.swift"; sourceTree = "<group>"; };
+		8D7380472960FA2A009CD9F2 /* CKContainer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKContainer+Extensions.swift"; sourceTree = "<group>"; };
 		8D842B9D294B89410043F109 /* HelloTodo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloTodo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D842BA0294B89410043F109 /* HelloTodoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloTodoApp.swift; sourceTree = "<group>"; };
 		8D842BA4294B89420043F109 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,12 +47,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8D7380432960AB1D009CD9F2 /* Utils */ = {
+		8D7380462960FA1D009CD9F2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				8D7380442960AB2C009CD9F2 /* CloudKit+Utility.swift */,
+				8D7380472960FA2A009CD9F2 /* CKContainer+Extensions.swift */,
 			);
-			path = Utils;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		8D842B94294B89410043F109 = {
@@ -74,7 +74,7 @@
 		8D842B9F294B89410043F109 /* HelloTodo */ = {
 			isa = PBXGroup;
 			children = (
-				8D7380432960AB1D009CD9F2 /* Utils */,
+				8D7380462960FA1D009CD9F2 /* Extensions */,
 				8DAFA9922950D24000361425 /* Views */,
 				8D842BB2294B8BA10043F109 /* Models */,
 				8D842BAF294B8B080043F109 /* Screens */,
@@ -192,7 +192,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D7380452960AB2C009CD9F2 /* CloudKit+Utility.swift in Sources */,
 				8DAFA9962950D2F700361425 /* TaskItemView.swift in Sources */,
 				8D9BF957295DE6BA0047FDFB /* ErrorWrapper.swift in Sources */,
 				8D842BB1294B8B1A0043F109 /* TodoListScreen.swift in Sources */,
@@ -201,6 +200,7 @@
 				8D842BA1294B89410043F109 /* HelloTodoApp.swift in Sources */,
 				8D842BB6294B8C5C0043F109 /* Model.swift in Sources */,
 				8D9BF959295DE6FD0047FDFB /* ErrorView.swift in Sources */,
+				8D7380482960FA2A009CD9F2 /* CKContainer+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

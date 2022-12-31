@@ -32,7 +32,6 @@ struct TodoListScreen: View {
     @State private var errorWrapper: ErrorWrapper?
     
     var filteredTasks: [TaskItem] {
-        
         model.filterTasks(by: filterOption)
     }
     
@@ -62,28 +61,14 @@ struct TodoListScreen: View {
         }
         .task {
             do {
-                if try await validateUserLoginToiCloud() {
-                    try await model.populateTasks()
-                } else {
-                    throw UserAccountError.notSignedIn
-                }
+                try await model.populateTasks()
             } catch {
-                errorWrapper = ErrorWrapper(error: error, guidance: "Please make sure to login to your iCloud account through settings.")
+                errorWrapper = ErrorWrapper(error: error, guidance: "Unable to populate tasks")
             }
-        }
-        .sheet(item: $errorWrapper, content: { errorWrapper in
-            ErrorView(errorWrapper: errorWrapper) {
-                Button("Login to iCloud") {
-                    Task {
-                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
-                        if UIApplication.shared.canOpenURL(settingsUrl) {
-                            let _ = await UIApplication.shared.open(settingsUrl)
-                        }
-                    }
-                }
-            }
-            
+        }.sheet(item: $errorWrapper, content: { errorWrapper in
+            ErrorView(errorWrapper: errorWrapper)
         })
+       
         .padding()
     }
 }
